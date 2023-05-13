@@ -17,9 +17,10 @@ int RollDice(int maxValue) {
 }
 
 int ChooseOption(vector<int> options) {
-	int option;
+	char option;
 	while (true) {
 		if (std::cin >> option) {
+			option = toupper(option);
 			int optionPosition = indexOf(options, option);
 			if (optionPosition != -1) {
 				return options[optionPosition];
