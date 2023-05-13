@@ -8,14 +8,6 @@ int indexOf(vector<int> array_, int valueToFind) {
 	}
 	return -1;
 }
-int indexOf(vector<char> array_, int valueToFind) {
-	for (int i = 0; i < array_.size(); i++) {
-		if (array_[i] == valueToFind) {
-			return i;
-		}
-	}
-	return -1;
-}
 
 int RollDice(int maxValue) {
 	// set random seed
