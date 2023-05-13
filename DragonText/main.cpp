@@ -9,7 +9,13 @@ using std::vector;
 #include "Characters.h"
 
 int main() {
+	Player player;
+	player.Name = "Player";
 
+	Enemy snake("Snake", 10, 1, 2.1f);
+
+	player.Attack(snake);
+	snake.Attack(player);
 
 	return 0;
 }
