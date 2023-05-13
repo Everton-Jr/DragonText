@@ -22,14 +22,13 @@ public:
 	void Attack(Entity& otherEntity) {
 		int chance = 20;
 		int evasionChance = abs((chance / otherEntity.Speed) - chance);
-		string message;
+		std::cout << "X " << Name << " attacked " << otherEntity.Name << "...\n";
 		if (RollDice(chance) > evasionChance) {
-			std::cout << Name << " attacked " << otherEntity.Name << '\n';
 			int damage = GetDamage();
 			otherEntity.TakeDamage(damage);
 		}
 		else {
-			std::cout << Name << " missed the attack\n";
+			std::cout << "..." << Name << " missed the attack.\n";
 		}
 	}
 };
