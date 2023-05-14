@@ -1,14 +1,17 @@
 #pragma once
 
+class Enemy;
+class Item;
+
 class Entity {
 public:
 	string Name = "Entity";
 	int MaxHealth = 100;
 	int Health = MaxHealth;
-	int RawDamage = 10;
+	int RawDamage = 5;
 	float Speed = 1.0f;
 
-	int GetDamage() {
+	virtual int GetDamage() {
 		int damage = round(RawDamage * .7);
 		int additionalDamage = ceil(RawDamage * .3);
 		return damage + RollDice(additionalDamage);
@@ -33,7 +36,7 @@ public:
 	}
 };
 
-class Enemy;
+
 
 class Player : public Entity {
 public:
@@ -44,6 +47,8 @@ public:
 		int additionalDamage = ceil(RawDamage * .3);
 		return damage + RollDice(additionalDamage);
 	}
+
+	void Found(Item& item);
 };
 
 class Enemy : public Entity {
@@ -56,3 +61,48 @@ public:
 		Speed = speed_;
 	}
 };
+
+class Item {
+public:
+	string Name = "Item";
+
+	Item(string name_) {
+		Name = name_;
+	}
+
+	virtual void Use(Player& player) {
+		std::cout << "..." << player.Name << " used the " << Name << '.';
+	}
+};
+
+class Weapon : public Item {
+public:
+	int Damage = 12;
+
+	Weapon(string name_, int damage_) : Item(name_) {
+		Name = name_;
+		Damage = damage_;
+	}
+
+	void Use(Player& player) {
+		std::cout << "..." << player.Name << " equipped the " << Name << '.';
+		player.RawDamage = Damage;
+	}
+};
+
+// methods
+void Player::Found(Item& item) {
+	std::cout << "You found a " << item.Name << " want to keep it?\n";
+	std::cout << "Yes: Y / No: N\n";
+	char option = ChooseOption({ 'Y', 'N' });
+	system("cls");
+	switch (option) {
+	case 'Y':
+		item.Use(*this);
+		break;
+	case 'N':
+		std::cout << "..." << Name << " left the item.";
+		break;
+	}
+	std::cout << "\n\n";
+}
