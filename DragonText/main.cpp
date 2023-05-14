@@ -10,12 +10,13 @@ using std::vector;
 
 int main() {
 	Player player;
-	player.Name = "Player";
+	player.Name = "Ever";
 
-	Enemy snake("Snake", 10, 1, 2.1f);
+	Weapon dagger("Dagger", 12);
+	player.Found(dagger);
 
-	player.Attack(snake);
-	snake.Attack(player);
+	Item medalion("Medalion");
+	player.Found(medalion);
 
 	return 0;
 }
