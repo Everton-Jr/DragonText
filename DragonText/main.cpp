@@ -14,7 +14,7 @@ int main() {
 	player.Name = "Ever";
 
 	while (player.Health > 0) {
-		ChoosePath();
+		ChoosePath(player);
 	}
 
 	return 0;

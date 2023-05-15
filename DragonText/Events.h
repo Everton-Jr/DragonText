@@ -1,6 +1,6 @@
 #pragma once
 
-void ChoosePath() {
+void ChoosePath(Player& player) {
 	std::cout << "What do you want to do?\n";
 	std::cout << "Walk: W / Search: S / Rest: R\n";
 	char option = ChooseOption({ 'W', 'S', 'R' });
