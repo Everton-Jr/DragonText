@@ -7,16 +7,15 @@ using std::vector;
 // custom libraries
 #include "Mechanics.h"
 #include "Characters.h"
+#include "Events.h"
 
 int main() {
 	Player player;
 	player.Name = "Ever";
 
-	Weapon dagger("Dagger", 12);
-	player.Found(dagger);
+	while (player.Health > 0) {
 
-	Item medalion("Medalion");
-	player.Found(medalion);
+	}
 
 	return 0;
 }
