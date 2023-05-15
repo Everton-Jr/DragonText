@@ -16,6 +16,11 @@ int RollDice(int maxValue) {
 	return result;
 }
 
+void ClearInput() {
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
 int ChooseOption(vector<int> options) {
 	char option;
 	while (true) {
@@ -23,12 +28,12 @@ int ChooseOption(vector<int> options) {
 			option = toupper(option);
 			int optionPosition = indexOf(options, option);
 			if (optionPosition != -1) {
+				ClearInput();
 				return options[optionPosition];
 			}
 		}
 		else {
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			ClearInput();
 		}
 		std::cout << "Invalid answer, try again...\n";
 	}
