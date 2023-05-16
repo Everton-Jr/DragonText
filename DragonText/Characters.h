@@ -96,13 +96,11 @@ void Player::Found(Item& item) {
 	std::cout << "Yes: Y / No: N\n";
 	char option = ChooseOption({ 'Y', 'N' });
 	system("cls");
-	switch (option) {
-	case 'Y':
+	if (option == 'Y') {
 		item.Use(*this);
-		break;
-	case 'N':
+	}
+	else {
 		std::cout << "..." << Name << " left the item.";
-		break;
 	}
 	std::cout << "\n\n";
 }
