@@ -36,8 +36,6 @@ public:
 	}
 };
 
-
-
 class Player : public Entity {
 public:
 	int Strength = 1;
