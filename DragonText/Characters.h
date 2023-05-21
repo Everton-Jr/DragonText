@@ -39,6 +39,7 @@ public:
 class Player : public Entity {
 public:
 	int Strength = 1;
+	int Gold = 0;
 	int Steps = 0;
 
 	int GetDamage() {
