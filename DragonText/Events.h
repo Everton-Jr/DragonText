@@ -15,6 +15,7 @@ void Walk(Player &player, int dice) {
 	else {
 		// well...
 	}
+	std::cout << '\n';
 }
 
 void Search(Player &player, int dice) {
@@ -31,6 +32,7 @@ void Search(Player &player, int dice) {
 	else {
 		// well...
 	}
+	std::cout << '\n';
 }
 
 void Rest(Player &player, int dice) {
@@ -42,5 +44,5 @@ void Rest(Player &player, int dice) {
 	else {
 		std::cout << "...you had problems resting, you healed " << lifeHealed << " points of health.";
 	}
-	std::cout << '\n';
+	std::cout << "\n\n";
 }
