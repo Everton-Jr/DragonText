@@ -48,6 +48,56 @@ public:
 		return damage + RollDice(additionalDamage);
 	}
 
+	void Walk() {
+		Steps++;
+		std::cout << "You walk through the woods...\n";
+		int dice = RollDice(20);
+		if (dice == 20) {
+			// find a very good thing
+		}
+		else if (dice < 20 && dice >= 11) {
+			// good or nothing happens on your way
+			std::cout << "...you found nothing on your way.\n";
+		}
+		else if (dice < 11 && dice >= 2) {
+			// a bad thing happen
+		}
+		else {
+			// well...
+		}
+		std::cout << '\n';
+	}
+
+	void Search() {
+		int dice = RollDice(20);
+		if (dice == 20) {
+			// find a very good thing
+		}
+		else if (dice < 20 && dice >= 11) {
+			// good or nothing happens on your way
+		}
+		else if (dice < 11 && dice >= 2) {
+			// a bad thing happen
+			std::cout << "...you found nothing...\n";
+		}
+		else {
+			// well...
+		}
+		std::cout << '\n';
+	}
+
+	void Rest() {
+		int lifeHealed = (MaxHealth * .3) + RollDice(MaxHealth * .7);
+		Health += std::fmin(MaxHealth - Health, lifeHealed);
+		if (Health == MaxHealth) {
+			std::cout << "...you rested peacefully, your health is full!";
+		}
+		else {
+			std::cout << "...you had problems resting, you healed " << lifeHealed << " points of health.";
+		}
+		std::cout << "\n\n";
+	}
+
 	void Found(Item& item);
 };
 

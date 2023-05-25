@@ -42,6 +42,10 @@ int main() {
 			Rest(player, dice);
 		}
 
+		if (player.Steps >= 15 && player.Steps < 20) {
+
+		}
+
 		player.Steps++;
 	}
 
