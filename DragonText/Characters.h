@@ -17,6 +17,14 @@ public:
 		return damage + RollDice(additionalDamage);
 	}
 
+	virtual void Interface() {
+		Line();
+		std::cout << Name << "\n\n";
+		std::cout << "Health: " << Health << '/' << MaxHealth << '\n';
+		Line();
+		std::cout << '\n';
+	}
+
 	void TakeDamage(int amount) {
 		std::cout << "..." << Name << " received " << amount << " points of damage!\n";
 		Health -= amount;
@@ -48,25 +56,18 @@ public:
 		return damage + RollDice(additionalDamage);
 	}
 
-	void Walk() {
-		Steps++;
-		std::cout << "You walk through the woods...\n";
-		int dice = RollDice(20);
-		if (dice == 20) {
-			// find a very good thing
-		}
-		else if (dice < 20 && dice >= 11) {
-			// good or nothing happens on your way
-			std::cout << "...you found nothing on your way.\n";
-		}
-		else if (dice < 11 && dice >= 2) {
-			// a bad thing happen
-		}
-		else {
-			// well...
-		}
+	void Interface() {
+		Line();
+		std::cout << Name << "\n\n";
+		std::cout << "Health: " << Health << '/' << MaxHealth << '\n';
+		std::cout << "Gold: " << Gold << '\n';
+		std::cout << "Steps: " << Steps << " ft" << '\n';
+		Line();
 		std::cout << '\n';
 	}
+
+	void Fight(Entity enemy);
+	void Walk(vector<Enemy> enemies);
 
 	void Search() {
 		std::cout << "You search for items...\n";
@@ -155,4 +156,68 @@ void Player::Found(Item& item) {
 		std::cout << "..." << Name << " left the item.";
 	}
 	std::cout << "\n\n";
+}
+
+void Player::Fight(Entity enemy) {
+	while (Health > 0 && enemy.Health > 0) {
+		Interface();
+		enemy.Interface();
+		std::cout << "Attack: A / Run: R\n";
+		char option = ChooseOption({ 'A', 'R' });
+		system("cls");
+
+		switch (option) {
+		case 'A':
+			Attack(enemy);
+			break;
+		case 'R':
+			break;
+		}
+
+		enemy.Attack(*this);
+	}
+	if (Health > 0) {
+		// player won
+	}
+	else {
+		std::cout << Name << " died...";
+	}
+}
+
+void Player::Walk(vector<Enemy> enemies) {
+	Steps++;
+	std::cout << "You walk through the woods...\n";
+	if (Steps % 15 != 0) {
+		int dice = RollDice(20);
+		if (dice == 20) {
+			// find a very good thing
+		}
+		else if (dice < 20 && dice >= 11) {
+			// good or nothing happens on your way
+			std::cout << "...you found nothing on your way.\n";
+		}
+		else if (dice < 11 && dice >= 2) {
+			// a bad thing happen
+			int enemiesAmount = enemies.size();
+			int enemyNumber = RollDice(enemiesAmount) - 1;
+			Enemy enemy = enemies[enemyNumber];
+			std::cout << "...you found the " << enemy.Name << " on your way.\n";
+
+			Fight(enemy);
+		}
+		else {
+			// well...
+		}
+	}
+	else {
+		std::cout << "...you found a travelling merchant\n";
+		std::cout << "You want to talk to him?\n";
+		std::cout << "Yes: Y / No: N\n";
+		char option = ChooseOption({ 'Y', 'N' });
+		if (option == 'Y') {
+			// shop
+		}
+	}
+
+	std::cout << '\n';
 }

@@ -6,9 +6,8 @@ using std::vector;
 
 // custom libraries
 #include "Mechanics.h"
-#include "Characters.h"
 #include "Interface.h"
-#include "Events.h"
+#include "Characters.h"
 
 
 int main() {
@@ -20,7 +19,7 @@ int main() {
 	Enemy orc("Orc", 34, 11, .9f);
 
 	while (player.Health > 0) {
-		UserInterface(player);
+		player.Interface();
 
 		std::cout << "What do you want to do ? \n";
 		std::cout << "Walk: W / Search: S / Rest: R\n";
@@ -30,7 +29,7 @@ int main() {
 		system("cls");
 		switch (option) {
 		case 'W':
-			player.Walk();
+			player.Walk({ slime, goblin, orc });
 			break;
 		case 'S':
 			player.Search();
