@@ -69,6 +69,7 @@ public:
 	}
 
 	void Search() {
+		std::cout << "You search for items...\n";
 		int dice = RollDice(20);
 		if (dice == 20) {
 			// find a very good thing
@@ -87,6 +88,7 @@ public:
 	}
 
 	void Rest() {
+		std::cout << "You try to rest...\n";
 		int lifeHealed = (MaxHealth * .3) + RollDice(MaxHealth * .7);
 		Health += std::fmin(MaxHealth - Health, lifeHealed);
 		if (Health == MaxHealth) {

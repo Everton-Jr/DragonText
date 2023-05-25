@@ -131,7 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Characters.h" />
-    <ClInclude Include="Events.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Mechanics.h" />
   </ItemGroup>

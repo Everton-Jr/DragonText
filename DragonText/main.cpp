@@ -30,23 +30,14 @@ int main() {
 		system("cls");
 		switch (option) {
 		case 'W':
-			std::cout << "You walk through the woods...\n";
-			Walk(player, dice);
+			player.Walk();
 			break;
 		case 'S':
-			std::cout << "You search for items...\n";
-			Search(player, dice);
+			player.Search();
 			break;
 		case 'R':
-			std::cout << "You try to rest...\n";
-			Rest(player, dice);
+			player.Rest();
 		}
-
-		if (player.Steps >= 15 && player.Steps < 20) {
-
-		}
-
-		player.Steps++;
 	}
 
 	return 0;
