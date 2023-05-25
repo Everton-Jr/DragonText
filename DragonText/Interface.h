@@ -6,13 +6,3 @@ void Line() {
 	}
 	std::cout << '\n';
 }
-
-void UserInterface(Player& player) {
-	Line();
-	std::cout << player.Name << "\n\n";
-	std::cout << "Health: " << player.Health << '/' << player.MaxHealth << '\n';
-	std::cout << "Gold: " << player.Gold << '\n';
-	std::cout << "Steps: " << player.Steps << " ft" << '\n';
-	Line();
-	std::cout << '\n';
-}
