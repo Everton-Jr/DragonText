@@ -174,11 +174,10 @@ void Player::Fight(Entity enemy) {
 		char option = ChooseOption({ 'A', 'R' });
 		system("cls");
 
-		switch (option) {
-		case 'A':
+		if (option == 'A') {
 			Attack(enemy);
-			break;
-		case 'R':
+		}
+		else if (option == 'R') {
 			break;
 		}
 
