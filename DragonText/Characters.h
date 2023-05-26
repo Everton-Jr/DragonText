@@ -30,9 +30,12 @@ public:
 		Health -= amount;
 	}
 
-	void Attack(Entity& otherEntity) {
+	void Attack(Entity &otherEntity) {
 		int chance = 20;
-		int evasionChance = abs((chance / otherEntity.Speed) - chance);
+		int enemyMaxVelocity = 3.0f;
+		int evasionChance = chance * (fmin(otherEntity.Speed, enemyMaxVelocity) / enemyMaxVelocity);
+		evasionChance = fmin(chance - 1, evasionChance);
+		std::cout << otherEntity.Name << " evasion chance: " << evasionChance << '\n';
 		std::cout << "X " << Name << " attacked " << otherEntity.Name << "...\n";
 		if (RollDice(chance) > evasionChance) {
 			int damage = GetDamage();
@@ -64,6 +67,11 @@ public:
 		std::cout << "Steps: " << Steps << " ft" << '\n';
 		Line();
 		std::cout << '\n';
+	}
+
+	void FindGold(int quantity) {
+		std::cout << Name << " found " << quantity << " of gold...\n";
+		Gold += quantity;
 	}
 
 	void Fight(Entity enemy);
@@ -178,9 +186,10 @@ void Player::Fight(Entity enemy) {
 	}
 	if (Health > 0) {
 		// player won
+		FindGold(RollDice(enemy.MaxHealth / 2));
 	}
 	else {
-		std::cout << Name << " died...";
+		std::cout << Name << " died...\n";
 	}
 }
 
