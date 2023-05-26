@@ -38,7 +38,6 @@ public:
 		int enemyMaxVelocity = 3.0f;
 		int evasionChance = chance * (otherEntity.Speed / MAX_VELOCITY);
 		evasionChance = fmin(chance - 1, evasionChance);
-		std::cout << otherEntity.Name << " evasion chance: " << evasionChance << '\n';
 		std::cout << "X " << Name << " attacked " << otherEntity.Name << "...\n";
 		if (RollDice(chance) > evasionChance) {
 			int damage = GetDamage();
