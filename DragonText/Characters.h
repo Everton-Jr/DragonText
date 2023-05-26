@@ -11,6 +11,9 @@ public:
 	int RawDamage = 5;
 	float Speed = 1.0f;
 
+	const float MAX_VELOCITY = 3.0f;
+
+
 	virtual int GetDamage() {
 		int damage = round(RawDamage * .7);
 		int additionalDamage = ceil(RawDamage * .3);
@@ -33,7 +36,7 @@ public:
 	void Attack(Entity &otherEntity) {
 		int chance = 20;
 		int enemyMaxVelocity = 3.0f;
-		int evasionChance = chance * (fmin(otherEntity.Speed, enemyMaxVelocity) / enemyMaxVelocity);
+		int evasionChance = chance * (otherEntity.Speed / MAX_VELOCITY);
 		evasionChance = fmin(chance - 1, evasionChance);
 		std::cout << otherEntity.Name << " evasion chance: " << evasionChance << '\n';
 		std::cout << "X " << Name << " attacked " << otherEntity.Name << "...\n";
@@ -119,7 +122,7 @@ public:
 		MaxHealth = health_;
 		Health = MaxHealth;
 		RawDamage = damage_;
-		Speed = speed_;
+		Speed = fmin(speed_, MAX_VELOCITY);
 	}
 };
 
@@ -167,6 +170,7 @@ void Player::Found(Item& item) {
 }
 
 void Player::Fight(Entity enemy) {
+	bool runned = false;
 	while (Health > 0 && enemy.Health > 0) {
 		Interface();
 		enemy.Interface();
@@ -178,17 +182,26 @@ void Player::Fight(Entity enemy) {
 			Attack(enemy);
 		}
 		else if (option == 'R') {
-			break;
+			int runChance = RollDice(20) + Speed;
+			int enemyCatchChance = fmin(enemy.Speed * 6, 19);
+			std::cout << Name;
+			if (runChance > enemyCatchChance) {
+				std::cout << " runned!\n";
+				runned = true;
+				break;
+			}
+			std::cout << " couldn't run...\n";
 		}
 
 		enemy.Attack(*this);
 	}
-	if (Health > 0) {
-		// player won
-		FindGold(RollDice(enemy.MaxHealth / 2));
+	if (Health <= 0) {
+		std::cout << Name << " died...\n";
 	}
 	else {
-		std::cout << Name << " died...\n";
+		if (!runned) {
+			FindGold(RollDice(enemy.MaxHealth / 2));
+		}
 	}
 }
 
