@@ -37,7 +37,7 @@ int main() {
 			player.Search();
 			break;
 		case 'R':
-			player.Rest();
+			player.Rest(enemies);
 		}
 	}
 

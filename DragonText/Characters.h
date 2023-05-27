@@ -76,31 +76,11 @@ public:
 		Gold += quantity;
 	}
 	
-	void Found(Item& item);
-	void Fight(Entity enemy);
-	void Walk(vector<Enemy> enemies);
+	void Found(Item&);
+	void Fight(Entity);
+	void Walk(vector<Enemy>);
 	void Search();
-
-	void Rest(vector<Enemy> enemies) {
-		std::cout << "You try to rest...\n";
-		int dice = RollDice(20);
-		if (dice <= 10) {
-			std::cout << "...an enemy found you trying to rest.\n";
-			Enemy enemy = enemies[RollDice(enemies.size()) - 1];
-			Fight(enemy);
-		}
-		else {
-			int lifeHealed = (MaxHealth * .3) + RollDice(MaxHealth * .7);
-			Health += std::fmin(MaxHealth - Health, lifeHealed);
-			if (Health == MaxHealth) {
-				std::cout << "...you rested peacefully, your health is full!";
-			}
-			else {
-				std::cout << "...you had problems resting, you healed " << lifeHealed << " points of health.";
-			}
-			std::cout << "\n\n";
-		}
-	}
+	void Rest(vector<Enemy>);
 };
 
 class Enemy : public Entity {
@@ -283,4 +263,24 @@ void Player::Search() {
 		// well...
 	}
 	std::cout << '\n';
+}
+
+void Player::Rest(vector<Enemy> enemies) {
+	std::cout << "You try to rest...\n";
+	if (RollDice(20) <= 5) {
+		std::cout << "...an enemy found you trying to rest.\n";
+		Enemy enemy = enemies[RollDice(enemies.size()) - 1];
+		Fight(enemy);
+	}
+	else {
+		int lifeHealed = RollDice(MaxHealth * .6);
+		Health += std::fmin(MaxHealth - Health, lifeHealed);
+		if (Health == MaxHealth) {
+			std::cout << "...you rested peacefully, your health is full!";
+		}
+		else {
+			std::cout << "...you had problems resting, you healed " << lifeHealed << " points of health.";
+		}
+		std::cout << "\n\n";
+	}
 }
