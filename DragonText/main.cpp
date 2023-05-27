@@ -19,7 +19,7 @@ int main() {
 	Enemy orc("Orc", 34, 11, .9f);
 
 	while (player.Health > 0) {
-		player.Interface();
+		player.Interface(); 
 
 		std::cout << "What do you want to do ? \n";
 		std::cout << "Walk: W / Search: S / Rest: R\n";

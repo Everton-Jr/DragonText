@@ -75,28 +75,11 @@ public:
 		std::cout << Name << " found " << quantity << " of gold...\n";
 		Gold += quantity;
 	}
-
+	
+	void Found(Item& item);
 	void Fight(Entity enemy);
 	void Walk(vector<Enemy> enemies);
-
-	void Search() {
-		std::cout << "You search for items...\n";
-		int dice = RollDice(20);
-		if (dice == 20) {
-			// find a very good thing
-		}
-		else if (dice < 20 && dice >= 11) {
-			// good or nothing happens on your way
-		}
-		else if (dice < 11 && dice >= 2) {
-			// a bad thing happen
-			std::cout << "...you found nothing...\n";
-		}
-		else {
-			// well...
-		}
-		std::cout << '\n';
-	}
+	void Search();
 
 	void Rest() {
 		std::cout << "You try to rest...\n";
@@ -110,8 +93,6 @@ public:
 		}
 		std::cout << "\n\n";
 	}
-
-	void Found(Item& item);
 };
 
 class Enemy : public Entity {
@@ -239,5 +220,40 @@ void Player::Walk(vector<Enemy> enemies) {
 		}
 	}
 
+	std::cout << '\n';
+}
+
+void Player::Search() {
+	std::cout << "You search for items...\n";
+	int dice = RollDice(20);
+	// 'true' for testing
+	if (true) {
+		// find a very good thing
+		int eventNumber = RollDice(2);
+		switch (eventNumber) {
+		case 1:
+			// int goldQuantity = 50 + RollDice(150);
+			FindGold(50 + RollDice(150));
+			break;
+		case 2:
+			vector<Item> possibleItems = {
+				Weapon("Large Sword", 20),
+				// Item("Golden Glove")
+			};
+			Item item = possibleItems[RollDice(possibleItems.size()) - 1];
+			Found(item);
+			break;
+		}
+	}
+	else if (dice < 20 && dice >= 11) {
+		// good or nothing happens on your way
+	}
+	else if (dice < 11 && dice >= 2) {
+		// a bad thing happen
+		std::cout << "...you found nothing...\n";
+	}
+	else {
+		// well...
+	}
 	std::cout << '\n';
 }
