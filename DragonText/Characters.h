@@ -81,17 +81,25 @@ public:
 	void Walk(vector<Enemy> enemies);
 	void Search();
 
-	void Rest() {
+	void Rest(vector<Enemy> enemies) {
 		std::cout << "You try to rest...\n";
-		int lifeHealed = (MaxHealth * .3) + RollDice(MaxHealth * .7);
-		Health += std::fmin(MaxHealth - Health, lifeHealed);
-		if (Health == MaxHealth) {
-			std::cout << "...you rested peacefully, your health is full!";
+		int dice = RollDice(20);
+		if (dice <= 10) {
+			std::cout << "...an enemy found you trying to rest.\n";
+			Enemy enemy = enemies[RollDice(enemies.size()) - 1];
+			Fight(enemy);
 		}
 		else {
-			std::cout << "...you had problems resting, you healed " << lifeHealed << " points of health.";
+			int lifeHealed = (MaxHealth * .3) + RollDice(MaxHealth * .7);
+			Health += std::fmin(MaxHealth - Health, lifeHealed);
+			if (Health == MaxHealth) {
+				std::cout << "...you rested peacefully, your health is full!";
+			}
+			else {
+				std::cout << "...you had problems resting, you healed " << lifeHealed << " points of health.";
+			}
+			std::cout << "\n\n";
 		}
-		std::cout << "\n\n";
 	}
 };
 
@@ -241,7 +249,7 @@ void Player::Walk(vector<Enemy> enemies) {
 void Player::Search() {
 	std::cout << "You search for items...\n";
 	int dice = RollDice(20);
-	// 'true' for testing
+	// 'true' for testing <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	if (true) {
 		// find a very good thing
 		int eventNumber = RollDice(2);

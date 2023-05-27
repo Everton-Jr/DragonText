@@ -14,9 +14,11 @@ int main() {
 	Player player;
 	player.Name = "Ever";
 
-	Enemy slime("Slime", 6, 1, .5f);
-	Enemy goblin("Goblin", 18, 5, 1.7f);
-	Enemy orc("Orc", 34, 11, .9f);
+	const vector<Enemy> enemies = {
+		Enemy("Slime", 6, 1, .5f),
+		Enemy("Goblin", 18, 5, 1.7f),
+		Enemy("Orc", 34, 11, .9f)
+	};
 
 	while (player.Health > 0) {
 		player.Interface(); 
@@ -29,7 +31,7 @@ int main() {
 		system("cls");
 		switch (option) {
 		case 'W':
-			player.Walk({ slime, goblin, orc });
+			player.Walk(enemies);
 			break;
 		case 'S':
 			player.Search();
