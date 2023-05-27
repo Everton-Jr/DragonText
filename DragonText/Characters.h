@@ -119,6 +119,21 @@ public:
 	}
 };
 
+class Herb : public Item {
+public:
+	int HealPower = 5;
+
+	Herb(string name_, int healPower_) : Item(name_) {
+		Name = name_;
+		HealPower = healPower_;
+	}
+
+	void Use(Player& player) {
+		player.Health += HealPower;
+		std::cout << Name << " cured " << player.Name << " by " << HealPower << " health\n";
+	}
+};
+
 class Weapon : public Item {
 public:
 	int Damage = 12;
@@ -129,8 +144,8 @@ public:
 	}
 
 	void Use(Player& player) {
-		std::cout << "..." << player.Name << " equipped the " << Name << '.';
 		player.RawDamage = Damage;
+		std::cout << "..." << player.Name << " equipped the " << Name << '.';
 	}
 };
 
@@ -247,6 +262,10 @@ void Player::Search() {
 	}
 	else if (dice < 20 && dice >= 11) {
 		// good or nothing happens on your way
+		vector<Item> possibleItems = {
+			Weapon("Large Sword", 20),
+			Item("Golden Glove")
+		};
 	}
 	else if (dice < 11 && dice >= 2) {
 		// a bad thing happen
