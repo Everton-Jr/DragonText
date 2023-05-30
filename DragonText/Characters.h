@@ -1,4 +1,5 @@
 #pragma once
+#include <iomanip>
 
 class Enemy;
 class Item;
@@ -97,6 +98,7 @@ public:
 class Item {
 public:
 	string Name = "Item";
+	string Description = "It's useful!";
 
 	Item(string name_) {
 		Name = name_;
@@ -126,9 +128,10 @@ class Weapon : public Item {
 public:
 	int Damage = 12;
 
-	Weapon(string name_, int damage_) : Item(name_) {
+	Weapon(string name_, int damage_, string description_) : Item(name_) {
 		Name = name_;
 		Damage = damage_;
+		Description = description_;
 	}
 
 	void Use(Player& player) {
@@ -141,7 +144,7 @@ public:
 void Player::Found(Item& item) {
 	std::cout << "You found a " << item.Name << " want to keep it?\n";
 	std::cout << "Yes: Y / No: N\n";
-	char option = ChooseOption({ 'Y', 'N' });
+	char option = ChooseOption(vector<char>{ 'Y', 'N' });
 	system("cls");
 	if (option == 'Y') {
 		item.Use(*this);
@@ -158,7 +161,7 @@ void Player::Fight(Entity enemy) {
 		Interface();
 		enemy.Interface();
 		std::cout << "Attack: A / Run: R\n";
-		char option = ChooseOption({ 'A', 'R' });
+		char option = ChooseOption(vector<char>{ 'A', 'R' });
 		system("cls");
 
 		if (option == 'A') {
@@ -191,7 +194,8 @@ void Player::Fight(Entity enemy) {
 void Player::Walk(vector<Enemy> enemies) {
 	Steps++;
 	std::cout << "You walk through the woods...\n";
-	if (Steps % 15 != 0) {
+	// Steps % 15 != 0
+	if (false) {
 		int dice = RollDice(20);
 		if (dice == 20) {
 			// find a very good thing
@@ -217,9 +221,29 @@ void Player::Walk(vector<Enemy> enemies) {
 		std::cout << "...you found a travelling merchant\n";
 		std::cout << "You want to talk to him?\n";
 		std::cout << "Yes: Y / No: N\n";
-		char option = ChooseOption({ 'Y', 'N' });
+		char option = ChooseOption(vector<char>{ 'Y', 'N' });
 		if (option == 'Y') {
 			// shop
+			vector<Item> itemsForSale = {
+				Weapon("Dagger", 6, "Deals 6 of damage"),
+				Weapon("Simple Sword", 15, "Deals 15 of damage"),
+				Weapon("Long Sword", 20, "Deals 20 of damage"),
+				Weapon("Great Sword", 25, "Deals 25 of damage"),
+				Weapon("Fire staff", 30, "Deals 30 of damage")
+			};
+			std::cout << "Choose an option between 1 and " << itemsForSale.size() << std::endl;
+			vector<int> options = {};
+			for (int i = 1; i <= itemsForSale.size(); i++) {
+				int realKey = i - 1;
+				int identation = 14;
+				std::cout << i << ". ";
+				std::cout << std::left << std::setw(identation) << itemsForSale[realKey].Name + ":";
+				std::cout << std::right << std::setw(identation) << itemsForSale[realKey].Description << std::endl;
+				options.push_back(i);
+			}
+			
+			int option = ChooseOption(options);
+			std::cout << option << '\n';
 		}
 	}
 
@@ -240,7 +264,7 @@ void Player::Search() {
 			break;
 		case 2:
 			vector<Item> possibleItems = {
-				Weapon("Large Sword", 20),
+				Weapon("Large Sword", 20, "Deals 20 of damage"),
 				// Item("Golden Glove")
 			};
 			Item item = possibleItems[RollDice(possibleItems.size()) - 1];
@@ -251,7 +275,7 @@ void Player::Search() {
 	else if (dice < 20 && dice >= 11) {
 		// good or nothing happens on your way
 		vector<Item> possibleItems = {
-			Weapon("Large Sword", 20),
+			Weapon("Large Sword", 20, "Deals 20 of damage"),
 			Item("Golden Glove")
 		};
 	}
