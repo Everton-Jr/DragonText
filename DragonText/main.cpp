@@ -25,7 +25,7 @@ int main() {
 
 		std::cout << "What do you want to do ? \n";
 		std::cout << "Walk: W / Search: S / Rest: R\n";
-		char option = ChooseOption({ 'W', 'S', 'R' });
+		char option = ChooseOption(vector<char>{ 'W', 'S', 'R' });
 		int dice = RollDice(20);
 
 		system("cls");
