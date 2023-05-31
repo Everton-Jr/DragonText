@@ -99,13 +99,14 @@ class Item {
 public:
 	string Name = "Item";
 	string Description = "It's useful!";
+	int GoldValue = 0;
 
 	Item(string name_) {
 		Name = name_;
 	}
 
 	virtual void Use(Player& player) {
-		std::cout << "..." << player.Name << " used the " << Name << '.';
+		std::cout << "..." << player.Name << " used the " << Name << ".\n";
 	}
 };
 
@@ -113,9 +114,10 @@ class Herb : public Item {
 public:
 	int HealPower = 5;
 
-	Herb(string name_, int healPower_) : Item(name_) {
+	Herb(string name_, int healPower_, int goldValue_ = 0) : Item(name_) {
 		Name = name_;
 		HealPower = healPower_;
+		GoldValue = goldValue_;
 	}
 
 	void Use(Player& player) {
@@ -128,15 +130,16 @@ class Weapon : public Item {
 public:
 	int Damage = 12;
 
-	Weapon(string name_, int damage_, string description_) : Item(name_) {
+	Weapon(string name_, int damage_, string description_, int goldValue_ = 0) : Item(name_) {
 		Name = name_;
 		Damage = damage_;
 		Description = description_;
+		GoldValue = goldValue_;
 	}
 
-	void Use(Player& player) {
+	virtual void Use(Player& player) {
 		player.RawDamage = Damage;
-		std::cout << "..." << player.Name << " equipped the " << Name << '.';
+		std::cout << "..." << player.Name << " equipped the " << Name << ".\n";
 	}
 };
 
@@ -225,25 +228,40 @@ void Player::Walk(vector<Enemy> enemies) {
 		if (option == 'Y') {
 			// shop
 			vector<Item> itemsForSale = {
-				Weapon("Dagger", 6, "Deals 6 of damage"),
-				Weapon("Simple Sword", 15, "Deals 15 of damage"),
-				Weapon("Long Sword", 20, "Deals 20 of damage"),
-				Weapon("Great Sword", 25, "Deals 25 of damage"),
-				Weapon("Fire staff", 30, "Deals 30 of damage")
+				Weapon("Dagger", 6, "Deals 6 of damage", 3),
+				Weapon("Simple Sword", 15, "Deals 15 of damage", 10),
+				Weapon("Long Sword", 20, "Deals 20 of damage", 20),
+				Weapon("Great Sword", 25, "Deals 25 of damage", 30),
+				Weapon("Fire staff", 30, "Deals 30 of damage", 50)
 			};
-			std::cout << "Choose an option between 1 and " << itemsForSale.size() << std::endl;
+			std::cout << "Enter an item between 1 and " << itemsForSale.size() << std::endl;
 			vector<int> options = {};
 			for (int i = 1; i <= itemsForSale.size(); i++) {
 				int realKey = i - 1;
 				int identation = 14;
 				std::cout << i << ". ";
 				std::cout << std::left << std::setw(identation) << itemsForSale[realKey].Name + ":";
-				std::cout << std::right << std::setw(identation) << itemsForSale[realKey].Description << std::endl;
+				std::cout << std::right << std::setw(identation) << itemsForSale[realKey].Description;
+				std::cout << std::setw(9) << itemsForSale[realKey].GoldValue << " golds" << std::endl;
 				options.push_back(i);
 			}
 			
 			int option = ChooseOption(options);
-			std::cout << option << '\n';
+			Item choosedItem = itemsForSale[option];
+			std::cout << "Are you sure you want to buy " << choosedItem.Name << "?\n";
+			std::cout << "Yes: Y / No: N\n";
+			char accepted = ChooseOption(vector<char>{ 'Y', 'N' });
+			if (accepted == 'Y') {
+				if (Gold < choosedItem.GoldValue) {
+					std::cout << "You don't have gold...\n";
+				}
+				else {
+					std::cout << "You bought the item...\n";
+					Gold -= choosedItem.GoldValue;
+					choosedItem.Use(*this);
+				}
+			}
+			std::cout << "...You leave the shop.\n";
 		}
 	}
 
